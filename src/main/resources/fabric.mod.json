@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "mchubmoblagfixer",
+  "version": "${version}",
+  "name": "MCHubMobLagFixer",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/mchubmoblagfixer/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "fabric-datagen": [
+      "me.untouchedodin0.mchubmoblagfixer.client.MchubmoblagfixerDataGenerator"
+    ],
+    "client": [
+      "me.untouchedodin0.mchubmoblagfixer.client.EntityCullingFix"
+    ],
+    "main": [
+      "me.untouchedodin0.mchubmoblagfixer.core.Mchubmoblagfixer"
+    ],
+    "modmenu": [
+      "me.untouchedodin0.mchubmoblagfixer.client.menu.MchubmoblagfixerModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "mchubmoblagfixer.mixins.json",
+    {
+      "config": "mchubmoblagfixer.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
