@@ -12,6 +12,9 @@ public class MCHubMobLagFixerConfig {
 
     // Default distance in blocks
     private static int renderDistance = 128;
+    private static boolean isEmissiveDisabled = false;
+    private static boolean hideNametags = false;
+
     private static final File CONFIG_FILE = new File("config/mchubmoblagfixer.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
@@ -29,11 +32,30 @@ public class MCHubMobLagFixerConfig {
         return renderDistance * renderDistance;
     }
 
+    public static boolean isEmissiveDisabled() {
+        return isEmissiveDisabled;
+    }
+
+    public static void setIsEmissiveDisabled(boolean disabled) {
+        isEmissiveDisabled = disabled;
+    }
+
+    public static boolean shouldHideNameTags() {
+        return hideNametags;
+    }
+
+    public static void setHideNametags(boolean hide) {
+        hideNametags = hide;
+        save();
+    }
+
     public static void load() {
         if (!CONFIG_FILE.exists()) return;
         try (FileReader reader = new FileReader(CONFIG_FILE)) {
             ConfigData data = GSON.fromJson(reader, ConfigData.class);
             renderDistance = data.renderDistance;
+            isEmissiveDisabled = data.isEmissiveDisabled;
+            hideNametags = data.hideNameTags;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +63,7 @@ public class MCHubMobLagFixerConfig {
 
     private static void save() {
         try (FileWriter writer = new FileWriter(CONFIG_FILE)) {
-            GSON.toJson(new ConfigData(renderDistance), writer);
+            GSON.toJson(new ConfigData(renderDistance, isEmissiveDisabled, hideNametags), writer);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,9 +71,13 @@ public class MCHubMobLagFixerConfig {
 
     private static class ConfigData {
         int renderDistance;
+        boolean isEmissiveDisabled;
+        boolean hideNameTags;
 
-        ConfigData(int renderDistance) {
+        ConfigData(int renderDistance, boolean isEmissiveDisabled, boolean hideNameTags) {
             this.renderDistance = renderDistance;
+            this.isEmissiveDisabled = isEmissiveDisabled;
+            this.hideNameTags = hideNameTags;
         }
     }
 }
